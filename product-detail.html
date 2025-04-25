@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Detail</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="container" style="padding: 40px;">
+    <div id="product-detail"></div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = parseInt(urlParams.get('id'));
+
+    fetch('produits_local_images.json')
+      .then(response => response.json())
+      .then(products => {
+        const product = products[productId];
+        const container = document.getElementById("product-detail");
+
+        if (product) {
+          container.innerHTML = `
+            <h1>${product.name}</h1>
+            <img src="${product.image}" style="max-width: 300px;" />
+            <p>${product.description}</p>
+            <h3>Price: €${Number(product.price).toFixed(2)}</h3>
+            <a href="products.html">← Back to products</a>
+          `;
+        } else {
+          container.innerHTML = "<p>Product not found.</p>";
+        }
+      });
+  </script>
+</body>
+</html>
